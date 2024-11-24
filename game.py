@@ -9,6 +9,7 @@ subtitle = pygame.freetype.SysFont('Calibri', 30, True)
 screen_width, screen_height = 652, 652
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Shadows")
+
 grid = []
 for x in range(36):
     grid.append([3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3])
@@ -16,9 +17,11 @@ black = (0, 0, 0)
 red = (255, 0, 0)
 yellow = (255, 255, 0)
 center = (360, 360)
+
 def calc_start(step):
     deg = math.radians(30*(step-1)+270)
     return (300*math.cos(deg)+360,300*math.sin(deg)+360)
+
 print(calc_start(1))
 level = 1
 start_pos = calc_start(level)
