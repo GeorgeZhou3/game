@@ -100,7 +100,7 @@ while True:
         #subtitle.render_to(screen, (90, 300), "Use the arrow keys to move", (0, 0, 0))
         #subtitle.render_to(screen, (90, 330), "The amount of steps required will increase by 10", (0, 0, 0))
         #subtitle.render_to(screen, (90, 360), "every level, so be careful!", (0, 0, 0))
-        screen.blit(startScreen)
+        screen.blit(startScreen,(0,0))
     else:
         aTick += 1
         screen.fill((255,255,255))
