@@ -28,7 +28,7 @@ sprite_x = 12
 sprite_y = 0
 sprite_speed = 5
 bullets = []
-steps = 0
+step = 0
 rec = []
 number_of_sprites = 0
 while True:
@@ -62,22 +62,26 @@ while True:
     keys = pygame.key.get_pressed()
     old_x = sprite_x
     old_y = sprite_y
-    if keys[pygame.K_LEFT] and moved != 1:
+    if (keys[pygame.K_LEFT] or keys[pygame.K_RIGHT] or keys[pygame.K_UP] or keys[pygame.K_DOWN]) and moved == 1:
         moved = 1
-        step += 1
-        sprite_x -= 1
-    if keys[pygame.K_RIGHT] and moved != 1:
-        moved = 1
-        step += 1
-        sprite_x += 1
-    if keys[pygame.K_UP] and moved != 1:
-        moved = 1
-        step += 1
-        sprite_y -= 1
-    if keys[pygame.K_DOWN] and moved != 1:
-        moved = 1
-        step += 1
-        sprite_y += 1
+    else:
+        moved = 0
+        if keys[pygame.K_LEFT] and moved != 1:
+            moved = 1
+            step += 1
+            sprite_x -= 1
+        if keys[pygame.K_RIGHT] and moved != 1:
+            moved = 1
+            step += 1
+            sprite_x += 1
+        if keys[pygame.K_UP] and moved != 1:
+            moved = 1
+            step += 1
+            sprite_y -= 1
+        if keys[pygame.K_DOWN] and moved != 1:
+            moved = 1
+            step += 1
+            sprite_y += 1
     if sprite_x > 26 or sprite_x < 0:
         sprite_x = old_x
     if sprite_y > 26 or sprite_y < 0:
@@ -86,7 +90,8 @@ while True:
     for i in range(27):
         for j in range(27):
             pygame.draw.rect(screen, (255,255,255), ((i+1)*24-20, (j+1)*24-20, 20, 20))
-    pygame.draw.rect(screen, (0,0,0), ((sprite_x+1)*24-20, (sprite_y+1)*24-20, 20, 20))        
+    pygame.draw.rect(screen, (0,0,0), ((sprite_x+1)*24-20, (sprite_y+1)*24-20, 20, 20))  
+    
     pygame.display.flip()
 
     pygame.time.Clock().tick(60)
