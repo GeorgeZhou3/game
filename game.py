@@ -1,5 +1,6 @@
 import pygame
 import pygame.freetype
+import gif_pygame
 import random
 
 
@@ -10,6 +11,7 @@ subtitle = pygame.freetype.SysFont('Calibri', 30, True)
 number = pygame.freetype.SysFont('Calibri', 30, True)
 screen_width, screen_height = 802, 652
 screen = pygame.display.set_mode((screen_width, screen_height))
+lost = "Yourself"
 pygame.display.set_caption("On Thin Ice")
 grid = []
 for x in range(36):
@@ -44,6 +46,9 @@ ice2 = pygame.image.load('ice2.png')
 ice1 = pygame.image.load('ice1.png')
 pen2 = pygame.image.load('pen2.png')
 pen1 = pygame.image.load('pen1.png')
+#Gif loading
+backgroundGif = gif_pygame.load("background.gif")
+deathGif = gif_pygame.load("deadscreen.gif")
 def randomx():
     global sprite_x, sprite_y
     if random.randint(0,1):
@@ -64,35 +69,62 @@ randomx()
 sprite_speed = 5
 bullets = []
 splash = pygame.mixer.Sound('splash.wav')
-pygame.mixer.music.load('The winter castle.wav')
-pygame.mixer.music.play(loops=-1, start=0.0)
 level = 0
 step = 0
 maxstep = 10
 rec = []
 number_of_sprites = 0
+pygame.mixer.music.load('intro.wav')
+pygame.mixer.music.play(loops=1, start=0.0)
+#Animation tick
+aTick = 0
 while True:
+    pygame.time.Clock().tick(60)
+    print(aTick)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             quit()
 
-    screen.fill((255,255,255))
-    title.render_to(screen, (90, 90), "On Thin Ice", (0, 0, 0))
-    subtitle.render_to(screen, (90, 180), "Press SPACE to start", (0, 0, 0))
-    subtitle.render_to(screen, (90, 210), "Press ESC to quit", (0, 0, 0))
-    subtitle.render_to(screen, (90, 240), "Finish your steps without falling into water or hitting another penguin", (0, 0, 0))
-    subtitle.render_to(screen, (90, 270), "Use the arrow keys to move", (0, 0, 0))
-    subtitle.render_to(screen, (90, 300), "The amount of steps required will increase by 10 every level, so be careful!", (0, 0, 0))
+    if aTick >= 255:
+        backgroundGif.render(screen, (0, 0))
+        title.render_to(screen, (90, 90), "On Thin Ice", (0, 0, 0))
+        subtitle.render_to(screen, (90, 180), "Press SPACE to start", (0, 0, 0))
+        subtitle.render_to(screen, (90, 240), "Finish your steps without falling into water", (0, 0, 0))
+        subtitle.render_to(screen, (90, 270), "or hitting another penguin", (0, 0, 0))
+        subtitle.render_to(screen, (90, 300), "Use the arrow keys to move", (0, 0, 0))
+        subtitle.render_to(screen, (90, 330), "The amount of steps required will increase by 10", (0, 0, 0))
+        subtitle.render_to(screen, (90, 360), "every level, so be careful!", (0, 0, 0))
+    else:
+        aTick += 1
+        screen.fill((255,255,255))
+        title.render_to(screen, (90, 90), "Welcome to...", (0, 0, 0, aTick))
+
 
     keys = pygame.key.get_pressed()
     pygame.display.flip()
-    pygame.time.Clock().tick(60)
 
     if keys[pygame.K_SPACE]:
         break
         
     if keys[pygame.K_ESCAPE]:
         quit()
+pygame.mixer.music.load('start.wav')
+pygame.mixer.music.play(loops=1, start=0.0)
+bTick = 0
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            quit()
+    pygame.time.Clock().tick(60)
+    if bTick >= 255:
+        break
+    bTick += 1
+    screen.fill((0,0,0, bTick))
+    title.render_to(screen, (90, 90), "Good luck!", (255, 255, 255))
+
+    pygame.display.flip()
+pygame.mixer.music.load('The winter castle.wav')
+pygame.mixer.music.play(loops=-1, start=0.0)
 moved = 0
 lose = 0
 while lose != 1:
@@ -218,15 +250,21 @@ while lose != 1:
     step = 0
     maxstep += 10
 
+aTick = 0
 while True:
+    aTick += 1
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             quit()
 
-    screen.fill((255,255,255))
-    title.render_to(screen, (90, 90), "you lost", (0, 0, 0))
-    subtitle.render_to(screen, (90, 180), f"you lost to {lost}", (0, 0, 0))
-    subtitle.render_to(screen, (90, 210), "Press ESC to end the game", (0, 0, 0))
+    if (aTick >= 80):
+        screen.fill((255,255,255))
+        title.render_to(screen, (90, 90), "you lost", (0, 0, 0))
+        subtitle.render_to(screen, (90, 180), f"you lost to {lost}", (0, 0, 0))
+        subtitle.render_to(screen, (90, 210), "Press ESC to end the game", (0, 0, 0))
+    else:
+        deathGif.render(screen, (0, 0))
+    
 
     keys = pygame.key.get_pressed()
     pygame.display.flip()
