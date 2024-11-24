@@ -3,7 +3,7 @@ import pygame.freetype
 import gif_pygame
 import random
 
-
+lost = 0
 pygame.init()
 pygame.freetype.init()
 title = pygame.freetype.SysFont('Calisto MT', 100, True, True)
@@ -50,7 +50,7 @@ pen1 = pygame.image.load('pen1.png')
 backgroundGif = gif_pygame.load("background.gif")
 deathGif = gif_pygame.load("deadscreen.gif")
 def randomx():
-    global sprite_x, sprite_y
+    global sprite_x, sprite_y, rec
     if random.randint(0,1):
         sprite_x = random.randint(0,26)
         if random.randint(0,1):
@@ -63,9 +63,11 @@ def randomx():
             sprite_x = 0
         else:
             sprite_x = 26
+    if (sprite_x, sprite_y) in [x[0] for x in rec]:
+        randomx()
 sprite_x = 12
 sprite_y = 0
-randomx()
+
 sprite_speed = 5
 bullets = []
 splash = pygame.mixer.Sound('splash.wav')
@@ -128,15 +130,32 @@ pygame.mixer.music.play(loops=-1, start=0.0)
 moved = 0
 lose = 0
 while lose != 1:
+
+    stopped = []
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             quit()
     rec.append([])
-    randomx()
+    try:
+        randomx()
+    except:
+        if random.randint(0,1):
+            sprite_x = random.randint(0,26)
+            if random.randint(0,1):
+                sprite_y = 0
+            else:
+                sprite_y = 26
+        else:
+            sprite_y = random.randint(0,26)
+            if random.randint(0,1):
+                sprite_x = 0
+            else:
+                sprite_x = 26
     try:
         rec[-1].append((sprite_x,sprite_y))
     except:
         pass
+
     #for x in range(number_of_sprites):
     
     grid = []
@@ -149,6 +168,8 @@ while lose != 1:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quit()
+        if keys[pygame.K_ESCAPE]:
+            quit()
         old_x = sprite_x
         old_y = sprite_y
         keys = pygame.key.get_pressed()
@@ -215,29 +236,37 @@ while lose != 1:
                     rotated_image = pygame.transform.rotate(ice1, rot[j][i])
                     screen.blit(rotated_image, ((i+1)*24-20, (j+1)*24-20))
         
-        for i in rec[:-1]:
-            try:
+        for j in range(len(rec)-1):
+            i = rec[j]
+            if not j in stopped:
                 try:
-                    rotated_image = pygame.transform.rotate(pen2, calcdir(i[step-1], i[step]) )
-                except:
-                    pass
-                cur = i[step] 
-                screen.blit(rotated_image, ((cur[0]+1)*24-20, (cur[1]+1)*24-20)) 
-                if (cur[0]+1) == sprite_x+1 and (cur[1]+1) == sprite_y+1:
-                    lose = 1
-                    break
-            except: 
-                try:
-                    rotated_image = pygame.transform.rotate(pen2, calcdir(i[-2], i[-1]) )
-                except:
-                    pass
-                cur = i[-1]
-                screen.blit(rotated_image, ((cur[0]+1)*24-20, (cur[1]+1)*24-20)) 
-                if (cur[0]+1) == sprite_x+1 and (cur[1]+1) == sprite_y+1:
-                    lose = 1
-                    print("you hit another penguin")
-                    lost = "penguin"
-                    break
+                    try:
+                        rotated_image = pygame.transform.rotate(pen2, calcdir(i[step-1], i[step]) )
+                    except:
+                        pass
+                    cur = i[step] 
+                    if grid[cur[1]][cur[0]]<1:
+                        stopped.append(j)
+                    screen.blit(rotated_image, ((cur[0]+1)*24-20, (cur[1]+1)*24-20)) 
+                    if (cur[0]+1) == sprite_x+1 and (cur[1]+1) == sprite_y+1:
+                        lose = 1
+                        print("you hit another penguin")
+                        lost = "penguin"
+                        break
+                except: 
+                    try:
+                        rotated_image = pygame.transform.rotate(pen2, calcdir(i[-2], i[-1]) )
+                    except:
+                        pass
+                    cur = i[-1]
+                    if grid[cur[1]][cur[0]]<1:
+                        print("test")
+                    screen.blit(rotated_image, ((cur[0]+1)*24-20, (cur[1]+1)*24-20)) 
+                    if (cur[0]+1) == sprite_x+1 and (cur[1]+1) == sprite_y+1:
+                        lose = 1
+                        print("you hit another penguin")
+                        lost = "penguin"
+                        break
         if lose == 1:
             break
         rotated_image = pygame.transform.rotate(pen1, face)
