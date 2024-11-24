@@ -8,8 +8,9 @@ pygame.init()
 pygame.freetype.init()
 title = pygame.freetype.SysFont('Calisto MT', 100, True, True)
 subtitle = pygame.freetype.SysFont('Calibri', 30, True)
-number = pygame.freetype.SysFont('Calibri', 30, True)
-screen_width, screen_height = 802, 652
+number = pygame.freetype.Font('Doto.ttf', 30)
+#pygame.font.Font.set_bold()
+screen_width, screen_height = 792, 652
 screen = pygame.display.set_mode((screen_width, screen_height))
 lost = "Yourself"
 pygame.display.set_caption("On Thin Ice")
@@ -41,9 +42,9 @@ def calcdir(x,y):
             return 90
         elif dy < 0:
             return 270
-ice3 = pygame.image.load('ice3.png')
-ice2 = pygame.image.load('ice2.png')
-ice1 = pygame.image.load('ice1.png')
+ice3 = pygame.image.load('newice3.png')
+ice2 = pygame.image.load('newice2.png')
+ice1 = pygame.image.load('newice1.png')
 pen2 = pygame.image.load('pen2.png')
 pen1 = pygame.image.load('pen1.png')
 #Gif loading
@@ -82,6 +83,7 @@ pygame.mixer.music.load('intro.wav')
 pygame.mixer.music.play(loops=1, start=0.0)
 #Animation tick
 aTick = 0
+
 while True:
     pygame.time.Clock().tick(60)
     print(aTick)
@@ -89,7 +91,7 @@ while True:
         if event.type == pygame.QUIT:
             quit()
 
-    if aTick >= 255:
+    if aTick >= 90:
         backgroundGif.render(screen, (0, 0))
         #title.render_to(screen, (90, 90), "On Thin Ice", (0, 0, 0))
         #subtitle.render_to(screen, (90, 180), "Press SPACE to start", (0, 0, 0))
@@ -102,7 +104,7 @@ while True:
     else:
         aTick += 1
         screen.fill((255,255,255))
-        title.render_to(screen, (90, 90), "Welcome to...", (0, 0, 0, aTick))
+        title.render_to(screen, (60, 60), "Welcome to...", (0, 0, 0, aTick))
 
 
     keys = pygame.key.get_pressed()
@@ -121,7 +123,7 @@ while True:
         if event.type == pygame.QUIT:
             quit()
     pygame.time.Clock().tick(60)
-    if bTick >= 255:
+    if bTick >= 60:
         break
     bTick += 1
     screen.fill((0,0,0, bTick))
@@ -132,6 +134,8 @@ pygame.mixer.music.load('The winter castle.wav')
 pygame.mixer.music.play(loops=-1, start=0.0)
 moved = 0
 lose = 0
+screen_width, screen_height = 902, 652
+screen = pygame.display.set_mode((screen_width, screen_height))
 while lose != 1:
 
     stopped = []
@@ -274,8 +278,8 @@ while lose != 1:
             break
         rotated_image = pygame.transform.rotate(pen1, face)
         screen.blit(rotated_image, ((sprite_x+1)*24-20, (sprite_y+1)*24-20, 20, 20)) 
-        number.render_to(screen, (652, 0), "Steps left:"+str(maxstep-step), (255, 255, 0))
-        number.render_to(screen, (652, 30), "Score:"+str(level+1), (255, 255, 0))
+        number.render_to(screen, (652, 10), "Steps left-"+str(maxstep-step), (255, 255, 0))
+        number.render_to(screen, (652, 40), "Score-"+str(level+1), (255, 255, 0))
         pygame.display.flip()
         pygame.time.Clock().tick(60)
     level += 1
