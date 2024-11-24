@@ -4,6 +4,9 @@ import math
 
 pygame.init()
 pygame.freetype.init()
+
+clock = pygame.time.Clock()
+
 title = pygame.freetype.SysFont('Calisto MT', 100, True, True)
 subtitle = pygame.freetype.SysFont('Calibri', 30, True)
 screen_width, screen_height = 652, 652
@@ -35,6 +38,7 @@ step = 0
 rec = []
 number_of_sprites = 0
 while True:
+    clock.tick(60)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             quit()
@@ -57,6 +61,7 @@ while True:
         quit()
 
 while True:
+    clock.tick(60)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             quit()
@@ -73,15 +78,15 @@ while True:
             moved = 1
             step += 1
             sprite_x -= 1
-        if keys[pygame.K_RIGHT] and moved != 1:
+        elif keys[pygame.K_RIGHT] and moved != 1:
             moved = 1
             step += 1
             sprite_x += 1
-        if keys[pygame.K_UP] and moved != 1:
+        elif keys[pygame.K_UP] and moved != 1:
             moved = 1
             step += 1
             sprite_y -= 1
-        if keys[pygame.K_DOWN] and moved != 1:
+        elif keys[pygame.K_DOWN] and moved != 1:
             moved = 1
             step += 1
             sprite_y += 1
