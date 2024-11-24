@@ -2,7 +2,7 @@ import pygame
 import pygame.freetype
 import random
 
-
+lost = 0
 pygame.init()
 pygame.freetype.init()
 title = pygame.freetype.SysFont('Calisto MT', 100, True, True)
