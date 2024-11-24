@@ -65,7 +65,7 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             quit()
-
+            
     #for x in range(number_of_sprites):
     keys = pygame.key.get_pressed()
     old_x = sprite_x
