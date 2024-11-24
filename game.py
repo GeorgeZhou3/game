@@ -44,6 +44,7 @@ def calcdir(x,y):
             return 270
 ice3 = pygame.image.load('newice3.png')
 ice2 = pygame.image.load('newice2.png')
+water = pygame.image.load('water.png')
 ice1 = pygame.image.load('newice1.png')
 pen2 = pygame.image.load('pen2.png')
 pen1 = pygame.image.load('pen1.png')
@@ -177,6 +178,7 @@ while lose != 1:
                 quit()
         if keys[pygame.K_ESCAPE]:
             quit()
+        screen.blit(water,(0,0))
         old_x = sprite_x
         old_y = sprite_y
         keys = pygame.key.get_pressed()
@@ -228,7 +230,7 @@ while lose != 1:
                         except:
                             pass
                
-        screen.fill((0,0,255))
+        #screen.fill((0,0,255))
         
         for i in range(27):
             for j in range(27):
