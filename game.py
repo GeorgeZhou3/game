@@ -101,5 +101,3 @@ while True:
     pygame.draw.rect(screen, (0,0,0), ((sprite_x+1)*24-20, (sprite_y+1)*24-20, 20, 20))  
     
     pygame.display.flip()
-
-    pygame.time.Clock().tick(60)
