@@ -49,6 +49,8 @@ pen1 = pygame.image.load('pen1.png')
 #Gif loading
 backgroundGif = gif_pygame.load("background.gif")
 deathGif = gif_pygame.load("deadscreen.gif")
+#screens
+startScreen = pygame.image.load('titleScreen.png')
 def randomx():
     global sprite_x, sprite_y, rec
     if random.randint(0,1):
@@ -89,13 +91,14 @@ while True:
 
     if aTick >= 255:
         backgroundGif.render(screen, (0, 0))
-        title.render_to(screen, (90, 90), "On Thin Ice", (0, 0, 0))
-        subtitle.render_to(screen, (90, 180), "Press SPACE to start", (0, 0, 0))
-        subtitle.render_to(screen, (90, 240), "Finish your steps without falling into water", (0, 0, 0))
-        subtitle.render_to(screen, (90, 270), "or hitting another penguin", (0, 0, 0))
-        subtitle.render_to(screen, (90, 300), "Use the arrow keys to move", (0, 0, 0))
-        subtitle.render_to(screen, (90, 330), "The amount of steps required will increase by 10", (0, 0, 0))
-        subtitle.render_to(screen, (90, 360), "every level, so be careful!", (0, 0, 0))
+        #title.render_to(screen, (90, 90), "On Thin Ice", (0, 0, 0))
+        #subtitle.render_to(screen, (90, 180), "Press SPACE to start", (0, 0, 0))
+        #subtitle.render_to(screen, (90, 240), "Finish your steps without falling into water", (0, 0, 0))
+        #subtitle.render_to(screen, (90, 270), "or hitting another penguin", (0, 0, 0))
+        #subtitle.render_to(screen, (90, 300), "Use the arrow keys to move", (0, 0, 0))
+        #subtitle.render_to(screen, (90, 330), "The amount of steps required will increase by 10", (0, 0, 0))
+        #subtitle.render_to(screen, (90, 360), "every level, so be careful!", (0, 0, 0))
+        screen.blit(startScreen)
     else:
         aTick += 1
         screen.fill((255,255,255))
